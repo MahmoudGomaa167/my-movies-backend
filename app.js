@@ -17,4 +17,7 @@ app.use(cors())
 runDB()
 
 app.use(userRouter, movieRouter, categoryRouter)
+app.get('/', (req, res) => {
+    res.status(200).json({message: "Welcome to my movies app"})
+})
 app.listen(process.env.PORT)
