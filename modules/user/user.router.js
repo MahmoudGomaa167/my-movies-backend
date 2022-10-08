@@ -1,0 +1,37 @@
+const upload = require('../../common/uploadProfileImage')
+const auth = require('../../middleware/auth')
+const handleValidation = require('../../middleware/handleValidation')
+const addToFavourites = require('./controller/addToFavourites')
+const changePassword = require('./controller/changePassword')
+const confirmEmail = require('./controller/confirmEmail')
+const forgetPassword = require('./controller/forgetPassword')
+const getFavourites = require('./controller/getFavourites')
+const getUserById = require('./controller/getUserById')
+const login = require('./controller/login')
+const logout = require('./controller/logout')
+const register = require('./controller/register')
+const removeFromFavourites = require('./controller/removeFromFavourites')
+const resetPassword = require('./controller/resetPassword')
+const updatePassword = require('./controller/updatePassword')
+const updateUser = require('./controller/updateUser')
+const { signupValidation, loginValidation, forgetPasswordValidation, resetPasswordValidation, changePasswordValidation, getUserValidation, updateUserValidation, updatePasswordValidation, logoutValidation, addToFavouritesValidation, removeFromFavouritesValidation } = require('./user.validation')
+
+const router = require('express').Router()
+
+router.post('/register', handleValidation(signupValidation), register)
+router.get('/verifyEmail/:token', confirmEmail)
+router.post('/login', handleValidation(loginValidation), login)
+router.post('/forgetPassword', handleValidation(forgetPasswordValidation), forgetPassword)
+router.patch('/resetPassword', handleValidation(resetPasswordValidation), auth(['user']), resetPassword)
+router.patch('/changePassword', handleValidation(changePasswordValidation), auth(['user']), changePassword)
+router.get('/getUser/:userId', auth(['user']) ,handleValidation(getUserValidation), getUserById)
+router.put('/updateUser', auth(['user']), upload, handleValidation(updateUserValidation), updateUser)
+router.patch('/updatePassword', auth(['user']), handleValidation(updatePasswordValidation), updatePassword)
+router.patch('/logout/:userId', auth(['user']), handleValidation(logoutValidation), logout)
+router.patch('/addToFavourites/:movieId', auth(['user']), handleValidation(addToFavouritesValidation), addToFavourites)
+router.patch('/removeFromFavourites/:movieId', auth(['user']), handleValidation(removeFromFavouritesValidation),removeFromFavourites)
+router.get('/getFavourites', auth(['user']), getFavourites)
+
+
+
+module.exports = router
