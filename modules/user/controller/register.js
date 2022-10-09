@@ -10,7 +10,7 @@ const register = async (req, res) => {
             const userEmail = await userModel.findOne({ email })
 
             if (!userEmail) {
-                const user = new userModel({ userName, email, password, profile_pic: `${req.protocol}://${req.headers.host}/profileImages/female.png` })
+                const user = new userModel({ userName, email, password, profile_pic: `${req.protocol}://${req.headers.host}/profileImages/male.png` })
                 const savedUser = await user.save()
                 const userToken = jwt.sign({ _id: savedUser._id }, process.env.SECRET_KEY)
                 const emailToken = jwt.sign({ _id: savedUser._id, email: savedUser.email }, process.env.SECRET_KEY)
