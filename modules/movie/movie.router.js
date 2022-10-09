@@ -8,10 +8,10 @@ const updateMovie = require('./controller/updateMovie')
 const { addMovieValidation, updateMovieValidation, deleteMovieValidation } = require('./movie.validation')
 const router = require('express').Router()
 
-router.get('/movies/:type', auth(['user']), getMovies)
-router.post('/addMovie', handleValidation(addMovieValidation), addMovie)
-router.get('/movie/:movieId', getMovie)
-router.put('/updateMovie/:movieId', handleValidation(updateMovieValidation), updateMovie)
-router.delete('/deleteMovie/:movieId', handleValidation(deleteMovieValidation), deleteMovie)
+router.get('/movies/:type', auth(['user', 'admin']), getMovies)
+router.post('/addMovie',auth(['admin']), handleValidation(addMovieValidation), addMovie)
+router.get('/movie/:movieId',auth(['admin', 'user']), getMovie)
+router.put('/updateMovie/:movieId',auth(['admin']), handleValidation(updateMovieValidation), updateMovie)
+router.delete('/deleteMovie/:movieId',auth(['admin']), handleValidation(deleteMovieValidation), deleteMovie)
 
 module.exports = router

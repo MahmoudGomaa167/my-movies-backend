@@ -10,12 +10,16 @@ const login = async (req, res) => {
 
         if (user) {
             if (user.is_verified) {
-                const match = await bcrypt.compare(password, user.password)
-                if (match) {
-                    const token = jwt.sign({ _id: user._id, isLogging: true }, process.env.SECRET_KEY)
-                    res.status(200).json({ message: "login success", token })
+                if (user.is_blocked) {
+                    res.status(400).json({ message: "You've been blocked" })
                 } else {
-                    res.status(400).json({ message: "invalid email or password" })
+                    const match = await bcrypt.compare(password, user.password)
+                    if (match) {
+                        const token = jwt.sign({ _id: user._id, isLogging: true }, process.env.SECRET_KEY)
+                        res.status(200).json({ message: "login success", token })
+                    } else {
+                        res.status(400).json({ message: "invalid email or password" })
+                    }
                 }
             } else {
                 res.status(400).json({ message: "unverified email" })

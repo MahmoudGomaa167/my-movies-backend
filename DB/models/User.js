@@ -12,7 +12,8 @@ const userSchema = new mongoose.Schema({
     role: {type: String, default: 'user'},
     is_verified: {type: Boolean, default: false},
     code: String,
-    gender: {type: String, default: "male"}
+    gender: {type: String, default: "male"},
+    is_blocked: {type: Boolean, default: false}
 }, {
     timestamps: true
 })
