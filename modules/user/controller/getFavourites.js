@@ -24,7 +24,7 @@ const getFavourites = async (req, res) => {
 
             const numOfFavourites = favouritesLength.find(item => item._id.toString() === user._id.toString()).numOfFavourites
 
-            res.status(200).json({ currentPage: Number(page), numOfPages: Math.ceil(numOfFavourites / limit), favourites: userFavourites.favourites })
+            res.status(200).json({ message: 'Done', currentPage: Number(page), numOfPages: Math.ceil(numOfFavourites / limit), favourites: userFavourites.favourites })
         } else {
             res.status(400).json({ message: "invalid user" })
         }
