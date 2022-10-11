@@ -3,7 +3,8 @@ const userModel = require('../../../DB/models/User')
 
 
 const removeFromFavourites = async(req, res) => {
-    const {movieId} = req.params
+    try {
+        const {movieId} = req.params
 
     const user = await userModel.findOne({_id: req.user._id}).select('-password -code')
 
@@ -28,6 +29,10 @@ const removeFromFavourites = async(req, res) => {
     }else{
         res.status(400).json({message: 'invalid user'})
     }
+    } catch (error) {
+        res.status(500).json({ message: "internal server error", error })
+    }
+    
 }
 
 module.exports = removeFromFavourites

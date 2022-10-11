@@ -5,7 +5,8 @@ const signupValidation = {
         userName: joi.string().required().min(3).max(30),
         email: joi.string().required().email(),
         password: joi.string().required().pattern(new RegExp(/^[a-zA-Z0-9]{3,30}$/)),
-        cPassword: joi.string().required().valid(joi.ref('password'))
+        cPassword: joi.string().required().valid(joi.ref('password')),
+        gender: joi.string().required().pattern(new RegExp(/^(male|female){1}$/))
     })
 }
 
@@ -77,6 +78,13 @@ const removeFromFavouritesValidation = {
     })
 }
 
+const getFavouritesValidation = {
+    query: joi.object().options({abortEarly: false}).keys({
+        pageNumber: joi.number(),
+        size: joi.number()
+    })
+}
+
 
 module.exports = {
     signupValidation,
@@ -89,5 +97,6 @@ module.exports = {
     updatePasswordValidation,
     logoutValidation,
     addToFavouritesValidation,
-    removeFromFavouritesValidation
+    removeFromFavouritesValidation,
+    getFavouritesValidation
 }

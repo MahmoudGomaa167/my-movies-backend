@@ -14,7 +14,7 @@ const removeFromFavourites = require('./controller/removeFromFavourites')
 const resetPassword = require('./controller/resetPassword')
 const updatePassword = require('./controller/updatePassword')
 const updateUser = require('./controller/updateUser')
-const { signupValidation, loginValidation, forgetPasswordValidation, resetPasswordValidation, changePasswordValidation, getUserValidation, updateUserValidation, updatePasswordValidation, logoutValidation, addToFavouritesValidation, removeFromFavouritesValidation } = require('./user.validation')
+const { signupValidation, loginValidation, forgetPasswordValidation, resetPasswordValidation, changePasswordValidation, getUserValidation, updateUserValidation, updatePasswordValidation, logoutValidation, addToFavouritesValidation, removeFromFavouritesValidation, getFavouritesValidation } = require('./user.validation')
 
 const router = require('express').Router()
 
@@ -30,7 +30,7 @@ router.patch('/updatePassword', auth(['user', 'admin']), handleValidation(update
 router.patch('/logout/:userId', auth(['user', 'admin']), handleValidation(logoutValidation), logout)
 router.patch('/addToFavourites/:movieId', auth(['user', 'admin']), handleValidation(addToFavouritesValidation), addToFavourites)
 router.patch('/removeFromFavourites/:movieId', auth(['user', 'admin']), handleValidation(removeFromFavouritesValidation),removeFromFavourites)
-router.get('/getFavourites', auth(['user', 'admin']), getFavourites)
+router.get('/getFavourites',handleValidation(getFavouritesValidation), auth(['user', 'admin']), getFavourites)
 
 
 

@@ -14,7 +14,7 @@ const sendEmail = async (destination, message) => {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-      from: `"Email Confirmation" <no-reply@test.com>`, // sender address
+      from: `"Email Confirmation" <${process.env.EMAIL_USER}>`, // sender address
       to: destination, // list of receivers
       subject: "Confirm Your Email", // Subject line
       html: message, // html body

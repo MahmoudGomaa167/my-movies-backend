@@ -2,7 +2,8 @@ const userModel = require('../../../DB/models/User')
 const bcrypt = require('bcrypt')
 
 const updatePassword = async (req, res) => {
-    const {oldPassword, newPassword} = req.body
+    try {
+        const {oldPassword, newPassword} = req.body
 
     const user = await userModel.findOne({_id: req.user.id})
 
@@ -23,6 +24,10 @@ const updatePassword = async (req, res) => {
     }else{
         res.status(400).json({message: "invalid user"})
     }
+    } catch (error) {
+        res.status(500).json({ message: "internal server error", error })
+    }
+    
 }
 
 module.exports = updatePassword

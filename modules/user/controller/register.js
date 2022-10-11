@@ -4,13 +4,19 @@ const sendEmail = require('../../../common/sendEmail')
 
 const register = async (req, res) => {
     try {
-        const { userName, email, password, cPassword } = req.body
+        const { userName, email, password, cPassword, gender } = req.body
 
         if (password === cPassword) {
             const userEmail = await userModel.findOne({ email })
 
             if (!userEmail) {
-                const user = new userModel({ userName, email, password, profile_pic: `${req.protocol}://${req.headers.host}/profileImages/male.png` })
+                let imageUrl;
+                if(gender === 'male'){
+                    imageUrl = `${req.protocol}://${req.headers.host}/profileImages/male.png`
+                }else{
+                    imageUrl = `${req.protocol}://${req.headers.host}/profileImages/female.png`
+                }
+                const user = new userModel({ userName, email, password, profile_pic: imageUrl, gender })
                 const savedUser = await user.save()
                 const userToken = jwt.sign({ _id: savedUser._id }, process.env.SECRET_KEY)
                 const emailToken = jwt.sign({ _id: savedUser._id, email: savedUser.email }, process.env.SECRET_KEY)

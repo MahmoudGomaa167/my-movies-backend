@@ -4,7 +4,8 @@ const sendEmail = require('../../../common/sendEmail')
 
 
 const updateUser = async (req, res) => {
-    const { userName, email, gender, phone, profile_pic } = req.body
+    try {
+        const { userName, email, gender, phone, profile_pic } = req.body
     const user = await userModel.findOne({ _id: req.user._id })
     let imageUrl;
     if (!req.file) {
@@ -52,6 +53,10 @@ const updateUser = async (req, res) => {
     else {
         res.status(400).json({ message: 'invalid user' })
     }
+    } catch (error) {
+        res.status(500).json({ message: "internal server error", error })
+    }
+    
 
 
 }

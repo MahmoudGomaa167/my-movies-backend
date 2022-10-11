@@ -1,3 +1,4 @@
+const Joi = require('joi')
 const joi = require('joi')
 
 const addMovieValidation = {
@@ -35,8 +36,28 @@ const deleteMovieValidation = {
     })
 }
 
+const getMovieByIdValidation = {
+    params: joi.object().required().options({abortEarly: false}).keys({
+        movieId: joi.string().required().min(24).max(24)
+    })
+}
+
+const getMoviesValidation = {
+    params: joi.object().required().options({abortEarly: false}).keys({
+        type: joi.string().required().pattern(/^(movie|tv){1}$/)
+    }),
+    query: Joi.object().options({abortEarly: false}).keys({
+        pageNumber: joi.number(),
+        size: joi.number(),
+        searchKey: joi.string(),
+        genre: joi.string().pattern(/^(Action|Adventure|Animation|Biography|Comedy|Crime|Drama|Documentary|Fantasy|Family|Historical|Horror|Musical|Mystrey|Romance|Sci-Fi|Thriller|War|Western){1}$/)
+    })
+}
+
 module.exports = {
     addMovieValidation,
     updateMovieValidation,
-    deleteMovieValidation
+    deleteMovieValidation,
+    getMovieByIdValidation,
+    getMoviesValidation
 }
