@@ -49,8 +49,8 @@ const getMoviesValidation = {
     query: Joi.object().options({abortEarly: false}).keys({
         pageNumber: joi.number(),
         size: joi.number(),
-        searchKey: joi.string(),
-        genre: joi.string().pattern(/^(Action|Adventure|Animation|Biography|Comedy|Crime|Drama|Documentary|Fantasy|Family|Historical|Horror|Musical|Mystrey|Romance|Sci-Fi|Thriller|War|Western){1}$/)
+        searchKey: joi.string().empty('').default(''),
+        genre: joi.string().empty('').default('').pattern(/^(Action|Adventure|Animation|Biography|Comedy|Crime|Drama|Documentary|Fantasy|Family|Historical|Horror|Musical|Mystrey|Romance|Sci-Fi|Thriller|War|Western){1}$/)
     })
 }
 
