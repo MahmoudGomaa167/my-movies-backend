@@ -16,7 +16,7 @@ const forgetPassword = async (req, res) => {
             const message = `
         <h1>Reset Password Code</h1>
         <p>${code}</p>`
-        const subject = "Rset Password"
+        const subject = "Reset Password"
             sendEmail(email, message, subject)
             res.status(200).json({ message: "code sent successfully", token })
         } else {

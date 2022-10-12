@@ -11,10 +11,11 @@ const login = require('./controller/login')
 const logout = require('./controller/logout')
 const register = require('./controller/register')
 const removeFromFavourites = require('./controller/removeFromFavourites')
+const resendKey = require('./controller/resendKey')
 const resetPassword = require('./controller/resetPassword')
 const updatePassword = require('./controller/updatePassword')
 const updateUser = require('./controller/updateUser')
-const { signupValidation, loginValidation, forgetPasswordValidation, resetPasswordValidation, changePasswordValidation, getUserValidation, updateUserValidation, updatePasswordValidation, logoutValidation, addToFavouritesValidation, removeFromFavouritesValidation, getFavouritesValidation, confirmEmailValidation } = require('./user.validation')
+const { signupValidation, loginValidation, forgetPasswordValidation, resetPasswordValidation, changePasswordValidation, getUserValidation, updateUserValidation, updatePasswordValidation, logoutValidation, addToFavouritesValidation, removeFromFavouritesValidation, getFavouritesValidation, confirmEmailValidation, resendKeyValidation } = require('./user.validation')
 
 const router = require('express').Router()
 
@@ -31,6 +32,7 @@ router.patch('/logout/:userId', auth(['user', 'admin']), handleValidation(logout
 router.patch('/addToFavourites/:movieId', auth(['user', 'admin']), handleValidation(addToFavouritesValidation), addToFavourites)
 router.patch('/removeFromFavourites/:movieId', auth(['user', 'admin']), handleValidation(removeFromFavouritesValidation),removeFromFavourites)
 router.get('/getFavourites',handleValidation(getFavouritesValidation), auth(['user', 'admin']), getFavourites)
+router.patch('/resendKey/:userId', handleValidation(resendKeyValidation), resendKey)
 
 
 

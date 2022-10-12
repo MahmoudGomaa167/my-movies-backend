@@ -94,6 +94,12 @@ const getFavouritesValidation = {
     })
 }
 
+const resendKeyValidation = {
+    params: joi.object().required().options({abortEarly: false}).keys({
+        userId: joi.string().required().min(24).max(24)
+    })
+}
+
 
 module.exports = {
     signupValidation,
@@ -108,5 +114,6 @@ module.exports = {
     addToFavouritesValidation,
     removeFromFavouritesValidation,
     getFavouritesValidation,
-    confirmEmailValidation
+    confirmEmailValidation,
+    resendKeyValidation
 }
