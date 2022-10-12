@@ -17,6 +17,15 @@ const loginValidation = {
     })
 }
 
+const confirmEmailValidation = {
+    body: joi.object().required().options({abortEarly: false}).keys({
+        verificationKey: joi.string().required()
+    }),
+    params: joi.object().required().options({abortEarly: false}).keys({
+        userId: joi.string().required().min(24).max(24)
+    })
+}
+
 const forgetPasswordValidation = {
     body: joi.object().required().options({abortEarly: false}).keys({
         email: joi.string().required().email(),
@@ -98,5 +107,6 @@ module.exports = {
     logoutValidation,
     addToFavouritesValidation,
     removeFromFavouritesValidation,
-    getFavouritesValidation
+    getFavouritesValidation,
+    confirmEmailValidation
 }

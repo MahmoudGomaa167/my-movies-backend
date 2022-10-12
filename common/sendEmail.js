@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-const sendEmail = async (destination, message) => {
+const sendEmail = async (destination, message, subject) => {
   try {
     let transporter = nodemailer.createTransport({
       port: 587,
@@ -14,9 +14,9 @@ const sendEmail = async (destination, message) => {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-      from: `"Email Confirmation" <${process.env.EMAIL_USER}>`, // sender address
+      from: `"My Movies App" <${process.env.EMAIL_USER}>`, // sender address
       to: destination, // list of receivers
-      subject: "Confirm Your Email", // Subject line
+      subject: subject, // Subject line
       html: message, // html body
     });
   } catch (error) {

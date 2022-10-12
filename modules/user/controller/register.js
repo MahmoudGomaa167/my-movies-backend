@@ -1,6 +1,7 @@
 const userModel = require('../../../DB/models/User')
 const jwt = require('jsonwebtoken')
 const sendEmail = require('../../../common/sendEmail')
+const crypto = require('crypto')
 
 const register = async (req, res) => {
     try {
@@ -11,19 +12,20 @@ const register = async (req, res) => {
 
             if (!userEmail) {
                 let imageUrl;
-                if(gender === 'male'){
+                if (gender === 'male') {
                     imageUrl = `${req.protocol}://${req.headers.host}/profileImages/male.png`
-                }else{
+                } else {
                     imageUrl = `${req.protocol}://${req.headers.host}/profileImages/female.png`
                 }
-                const user = new userModel({ userName, email, password, profile_pic: imageUrl, gender })
+                const code = crypto.randomBytes(10).toString('hex')
+                const user = new userModel({ userName, email, password, profile_pic: imageUrl, gender, code })
                 const savedUser = await user.save()
                 const userToken = jwt.sign({ _id: savedUser._id }, process.env.SECRET_KEY)
-                const emailToken = jwt.sign({ _id: savedUser._id, email: savedUser.email }, process.env.SECRET_KEY)
                 const message = `
-            <h2>Please click the link to verify your email</h2>
-            <a href="${req.protocol}://${req.headers.host}/verifyEmail/${emailToken}">Click Me</a>`
-                await sendEmail(savedUser.email, message)
+            <h2>Email Verification Key</h2>
+            <p>${code}</p>`
+                const subject = 'Email Confirmation'
+                await sendEmail(savedUser.email, message, subject)
                 res.status(201).json({ message: "Registered successfully", userToken })
             } else {
                 res.status(400).json({ message: "email already registered" })
