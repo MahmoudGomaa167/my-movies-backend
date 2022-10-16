@@ -4,7 +4,7 @@ const addMovie = async (req, res) => {
     try {
         const {title, description, poster_image, backdrop_image, genre, year, rate, type} = req.body
 
-    const movie = await movieModel.findOne({title, year})
+    const movie = await movieModel.findOne({title, year, type})
 
     if(movie){
         res.status(400).json({message: "movie already exists"})
