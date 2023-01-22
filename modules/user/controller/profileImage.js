@@ -18,8 +18,10 @@ const getProfilemage = async (req, res) => {
         const file = await gfs.find({ filename }).toArray((err, files) => {
             if (!files[0] || files.length === 0) {
                 res.status(400).json({ message: "Image Not Found" })
-            } else {
+            } if(files[0].contentType === 'image/jpg' || files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png') {
                 gfs.openDownloadStreamByName(filename).pipe(res)
+            }else{
+                res.status(400).json({message: "Not an image"})
             }
         })
     } catch (error) {
