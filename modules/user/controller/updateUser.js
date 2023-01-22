@@ -2,6 +2,7 @@ const userModel = require('../../../DB/models/User')
 const sendEmail = require('../../../common/sendEmail')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const bucket = require('../../../common/uploadProfileImage')
 
 
 const updateUser = async (req, res) => {
@@ -27,10 +28,9 @@ const updateUser = async (req, res) => {
             }
 
         } else {
-            imageUrl = `${req.protocol}://${req.headers.host}/${req.file.destination}/${req.file.filename}`
+            imageUrl = `${req.protocol}://${req.headers.host}/files/${req.file.filename}`
+            
         }
-
-
 
 
         if (user) {

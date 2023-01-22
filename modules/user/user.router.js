@@ -1,4 +1,4 @@
-const upload = require('../../common/uploadProfileImage')
+const {upload} = require('../../common/uploadProfileImage')
 const auth = require('../../middleware/auth')
 const handleValidation = require('../../middleware/handleValidation')
 const addToFavourites = require('./controller/addToFavourites')
@@ -9,6 +9,7 @@ const getFavourites = require('./controller/getFavourites')
 const getUserById = require('./controller/getUserById')
 const login = require('./controller/login')
 const logout = require('./controller/logout')
+const getProfilemage = require('./controller/profileImage')
 const register = require('./controller/register')
 const removeFromFavourites = require('./controller/removeFromFavourites')
 const resendKey = require('./controller/resendKey')
@@ -33,6 +34,7 @@ router.patch('/addToFavourites/:movieId', auth(['user', 'admin']), handleValidat
 router.patch('/removeFromFavourites/:movieId', auth(['user', 'admin']), handleValidation(removeFromFavouritesValidation), removeFromFavourites)
 router.get('/getFavourites', handleValidation(getFavouritesValidation), auth(['user', 'admin']), getFavourites)
 router.patch('/resendKey/:userId', handleValidation(resendKeyValidation), resendKey)
+router.get('/files/:filename', getProfilemage)
 
 
 
