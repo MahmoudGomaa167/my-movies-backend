@@ -2,7 +2,7 @@ const userModel = require('../../../DB/models/User')
 const sendEmail = require('../../../common/sendEmail')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
-const bucket = require('../../../common/uploadProfileImage')
+const {cloudinary} = require('../../../common/uploadProfileImage')
 
 
 const updateUser = async (req, res) => {
@@ -28,7 +28,8 @@ const updateUser = async (req, res) => {
             }
 
         } else {
-            imageUrl = `${req.protocol}://${req.headers.host}/files/${req.file.filename}`
+            const result = await cloudinary.uploader.upload(req.file.path)
+            imageUrl = result.secure_url
             
         }
 
@@ -60,9 +61,6 @@ const updateUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "internal server error", error })
     }
-
-
-
 }
 
 module.exports = updateUser
