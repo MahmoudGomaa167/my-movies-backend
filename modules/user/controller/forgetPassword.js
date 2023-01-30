@@ -10,7 +10,7 @@ const forgetPassword = async (req, res) => {
         const user = await userModel.findOne({ email })
 
         if (user) {
-            const code = crypto.randomBytes(20).toString('base64')
+            const code = crypto.randomBytes(10).toString('hex')
             const updatedUser = await userModel.findOneAndUpdate({ email }, { code }, { new: true })
             const token = jwt.sign({ _id: updatedUser._id }, process.env.SECRET_KEY)
             const message = `
